@@ -8,6 +8,7 @@ import AddForm from "./AddForm";
 import ItemPage from "./ItemPage";
 import { useNavigate, useParams } from "react-router-dom";
 
+
 function removemShop(data,setItem,slug){
     
     console.log(data)
@@ -77,25 +78,53 @@ function findItem(type,products,setNewCart,newcart,setCart,oldData){
 }
 
 function Shop(props){
+    
+    // function popUp(inventory,available,setAvailable){
+    //     if (inventory===0){
 
-    function addQ(product,updateQuantity,increment){
-        product.quantity++
+    //         setAvailable(true)
+            
+    //     }
+    // }
+    function addQ(product,updateQuantity,increment,){
+        if (product.inventory!==0){
+            console.log(product.inventory)
+            product.quantity++
         // setProduct(products)
         updateQuantity({
             isUpdated:!increment
         })
+        }
+        else{
+            console.log("no inventory")
+            updateQuantity({
+                isAvailable:false
+            })
+
+        }
+        
         
     }
     function removeQ(product,updateQuantity,increment){
-        if(product.quantity>=1){
-             product.quantity--
-            // setProduct(products)
-            updateQuantity({
-                isUpdated:!increment
-            })
-            
-
+        if (product.inventory!==0){
+            console.log(product.inventory)
+            if(product.quantity>=1){
+                product.quantity--
+               // setProduct(products)
+               updateQuantity({
+                   isUpdated:!increment
+               })
+               
+   
+           }
         }
+        else{
+            console.log("no inventory")
+            updateQuantity({
+                isAvailable:false
+            })
+        }
+        
         
         
     }
@@ -103,7 +132,8 @@ function Shop(props){
    
     const[Quantity, setQuantity]=useState({
         items:0,
-        isUpdated:false
+        isUpdated:false,
+        isAvailable:true
     })
 
     const[filter,setFilter]=useState({
@@ -175,18 +205,18 @@ function Shop(props){
             <Card.Title>{product.name}</Card.Title>
             <Card.Text>
                  
-                Price:{product.price}<br></br>
+                Price:${product.price}<br></br>
                 {/* Description: {product.desc} */}
              
             </Card.Text>
             
-            <Button onClick={()=>removeQ(product,setQuantity,Quantity.isUpdated)} >-</Button>{product.quantity}
-            <Button onClick={()=>addQ(product,setQuantity,Quantity.isUpdated)} >+</Button>
-
+            <Button onClick={()=>removeQ(product,setQuantity,Quantity.isUpdated,Quantity.isAvailable)} >-</Button>{product.quantity}
+            <Button onClick={()=>addQ(product,setQuantity,Quantity.isUpdated,Quantity.isAvailable)} >+</Button>
+                {console.log(Quantity.isAvailable)}
             <Button variant="success" onClick={()=>props.addToCart(product)} >Submit</Button>
 
             <Button variant="danger" onClick={()=>removemShop(product,setItem)} >Remove</Button>
-            
+            <p>Inventory: {product.inventory}</p>
             
             
           </Card.Body>

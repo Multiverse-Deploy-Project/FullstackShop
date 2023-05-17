@@ -62,7 +62,8 @@ const itemSchema=new mongoose.Schema({
     img: String,
     desc:String,
     quantity:Number,
-    type:String
+    type:String,
+    inventory:Number
 
 })
 

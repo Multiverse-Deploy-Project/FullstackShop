@@ -109,7 +109,14 @@ function ItemPage(props){
           
           </Card>
           <h1>User Reviews</h1>
-           <p>reviews:{JSON.stringify(userReview.reviews)}</p> 
+          {userReview.reviews.map(post=>
+            <Card>
+                <h1>Name: {post.name}</h1>
+
+                <h2>Post: {post.message}</h2>
+
+            </Card>)}
+           {/* <p>reviews:{JSON.stringify(userReview.reviews)}</p>  */}
         
        
         </div>
