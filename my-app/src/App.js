@@ -21,7 +21,9 @@ function handleClick(product,navigate){
   
 }
 function pushToCart(data){
-  if (data!=null){
+
+  if (data!=null&& data.quantity!==0){
+    console.log(data)
     fetch("http://localhost:8000/addToCart", {
             method: "POST",
             headers:{

@@ -5,7 +5,46 @@ import Button from "react-bootstrap/Button";
 import { useState } from 'react';
 import Home from "./Home";
 import { useParams } from "react-router-dom";
+import ReviewForm from "./Review";
+function addReview(data,addedReviews,setUpdated,check){
+    //data represents the review that was submitted
+    if (data!=null){
+      if (data!=null){
+        fetch("http://localhost:8000/addReview", {
+          method: "POST",
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(
+      {
+        
+        _id: data._id,
+        item_id:data.item_id,
+        name: data.name,
+        message:data.message
+      }
+    )
+      })
+        
+      }
+        //userreview.reviews(list of reviews)
+        addedReviews.push(data)
+        
+        //setstate for reviews 
+        setUpdated({
+            
+            reviews: addedReviews,
+            //recieved
+            
+            
+            recieved:!check
+        })
+        
+        
+      }
 
+    
+  }
 
 function getReviews(userReview,setUserReview,id){
     //console.log(userReview)
@@ -33,6 +72,7 @@ function getReviews(userReview,setUserReview,id){
 
     
 function ItemPage(props){
+    
     
      const params=useParams();
     const[userReview,setUserReview]=useState({
@@ -118,7 +158,7 @@ function ItemPage(props){
             </Card>)}
            {/* <p>reviews:{JSON.stringify(userReview.reviews)}</p>  */}
         
-       
+           <ReviewForm sendReview={(reviewData)=>addReview(reviewData,userReview.reviews,setUserReview,userReview.recieved)}></ReviewForm>
         </div>
         
         

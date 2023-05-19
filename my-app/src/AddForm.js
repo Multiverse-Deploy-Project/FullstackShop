@@ -23,7 +23,7 @@ function AddForm(props) {
     price:null,
     img:null,
     desc:null,
-    qunatity:null,
+    inventory:null,
     type:null
   })
 
@@ -80,12 +80,12 @@ function AddForm(props) {
               
             </Form.Group>
             <Form.Group>
-              <Form.Label>Quantity</Form.Label>
+              <Form.Label>Inventory</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter quantity" onChange={(e)=>setFormData({
                   ...formdata,
-                  qunatity:e.target.value
+                  inventory:e.target.value
                   
                 })}
               ></Form.Control>

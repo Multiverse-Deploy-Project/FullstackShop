@@ -16,10 +16,12 @@
    
  }
  .products{
-  display:flex;
+  display:inline-flex;
   position: relative;
   bottom: -150px;
+  flex-wrap: wrap;
  }
+
  
  #filter{
   position:absolute;

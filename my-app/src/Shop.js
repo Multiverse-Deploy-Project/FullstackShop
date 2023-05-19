@@ -8,7 +8,15 @@ import AddForm from "./AddForm";
 import ItemPage from "./ItemPage";
 import { useNavigate, useParams } from "react-router-dom";
 
-
+function showMessage(available){
+    if (available===false){
+        return <div class="alert" role="alert">
+        Product not available! 
+        {/* <button  type="button" class="close" data-dismiss="alert" aria-label="Close" > x </button> */}
+      </div>
+    }
+    
+}
 function removemShop(data,setItem,slug){
     
     console.log(data)
@@ -86,15 +94,28 @@ function Shop(props){
             
     //     }
     // }
+
+
+
+    //only add to cart if within inventory limits done
+    //move reviews to item page done
+    //should not be able to add to cart if quantity is zero done
+    //checkout component inventory affects quantity 
+    //make cart have updated fields for same item instead of new items added to cart db
+
     function addQ(product,updateQuantity,increment,){
-        if (product.inventory!==0){
-            console.log(product.inventory)
-            product.quantity++
-        // setProduct(products)
-        updateQuantity({
-            isUpdated:!increment
-        })
-        }
+        
+            if (product.inventory!==0&&product.quantity<product.inventory ){
+                console.log(product.inventory)
+                product.quantity++
+            // setProduct(products)
+            updateQuantity({
+                isUpdated:!increment
+            })
+            }
+
+        
+       
         else{
             console.log("no inventory")
             updateQuantity({
@@ -106,18 +127,22 @@ function Shop(props){
         
     }
     function removeQ(product,updateQuantity,increment){
-        if (product.inventory!==0){
-            console.log(product.inventory)
-            if(product.quantity>=1){
-                product.quantity--
-               // setProduct(products)
-               updateQuantity({
-                   isUpdated:!increment
-               })
-               
-   
-           }
-        }
+        
+            if (product.inventory!==0&&product.quantity<product.inventory){
+                console.log(product.inventory)
+                if(product.quantity>=1){
+                    product.quantity--
+                   // setProduct(products)
+                   updateQuantity({
+                       isUpdated:!increment
+                   })
+                   
+       
+               }
+            }
+
+        
+        
         else{
             console.log("no inventory")
             updateQuantity({
@@ -129,7 +154,9 @@ function Shop(props){
         
     }
     
-   
+    const [message,setMessage]=useState({
+        available:"product not available at this time"
+    })
     const[Quantity, setQuantity]=useState({
         items:0,
         isUpdated:false,
@@ -212,15 +239,17 @@ function Shop(props){
             
             <Button onClick={()=>removeQ(product,setQuantity,Quantity.isUpdated,Quantity.isAvailable)} >-</Button>{product.quantity}
             <Button onClick={()=>addQ(product,setQuantity,Quantity.isUpdated,Quantity.isAvailable)} >+</Button>
-                {console.log(Quantity.isAvailable)}
+                
             <Button variant="success" onClick={()=>props.addToCart(product)} >Submit</Button>
-
+                
             <Button variant="danger" onClick={()=>removemShop(product,setItem)} >Remove</Button>
             <p>Inventory: {product.inventory}</p>
             
             
           </Card.Body>
+
         </Card> )}
+        
         <AddForm newItem={(data)=>{
             createItem(data).then(res=>res.json())
             .then(
@@ -236,6 +265,7 @@ function Shop(props){
              }
             
         } ></AddForm>
+        {showMessage(Quantity.isAvailable)}
         </div>
        
         
