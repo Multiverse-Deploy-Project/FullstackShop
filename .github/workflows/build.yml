@@ -26,9 +26,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16.x
-    - name: Install Render
-      run: npm i -g @render/cli
+    - name: Install Railway
+      run: npm i -g @railway/cli
     - name: Deploy
-      run: render up
+      run: railway up
       env:
-        RENDER_KEY: ${{ secrets.RENDER_KEY }}
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
