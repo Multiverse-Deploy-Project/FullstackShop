@@ -13,7 +13,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16.x
-    - run: cd ./backend && npm ci && npm test
+    - run: cd ./backend && npm install && npm ci && npm test
     
   build:
     name: Build and Deploy
